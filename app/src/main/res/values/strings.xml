@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Weatherapp</string>
+    <string name="temperature_format">%s</string>
+    <string name="feels_like_format">Ощущается как %s</string>
+    <string name="humidity_format">Влажность: %s</string>
+    <string name="pressure_format">Давление: %s</string>
+    <string name="wind_format">Ветер: %s</string>
+</resources>
