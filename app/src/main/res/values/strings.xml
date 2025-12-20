@@ -1,8 +1,32 @@
 <resources>
-    <string name="app_name">Weatherapp</string>
+    <string name="app_name">Погодное приложение</string>
+    <string name="app_title">Погода в мире</string>
+    <string name="select_city">Выберите город:</string>
+    <string name="display_settings">Настройки отображения</string>
+    <string name="celsius">Цельсий (°C)</string>
+    <string name="fahrenheit">Фаренгейт (°F)</string>
+    <string name="show_wind_direction">Показывать направление ветра</string>
+    <string name="refresh_data">Обновить данные</string>
+
     <string name="temperature_format">%s</string>
     <string name="feels_like_format">Ощущается как %s</string>
     <string name="humidity_format">Влажность: %s</string>
     <string name="pressure_format">Давление: %s</string>
     <string name="wind_format">Ветер: %s</string>
+    <string name="wind_direction_format">Направление: %s</string>
+
+    <string-array name="cities">
+        <item>Moscow</item>
+        <item>London</item>
+        <item>Paris</item>
+        <item>New York</item>
+        <item>Tokyo</item>
+        <item>Berlin</item>
+        <item>Rome</item>
+        <item>Madrid</item>
+        <item>Stockholm</item>
+        <item>Amsterdam</item>
+        <item>Dubai</item>
+        <item>Singapore</item>
+    </string-array>
 </resources>

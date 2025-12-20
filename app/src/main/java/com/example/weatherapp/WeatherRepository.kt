@@ -48,7 +48,8 @@ class WeatherRepository {
 
         val windObject = jsonObject.getJSONObject("wind")
         val wind = Wind(
-            speed = windObject.getDouble("speed")
+            speed = windObject.getDouble("speed"),
+            deg = windObject.optInt("deg", 0)
         )
 
         return WeatherResponse(

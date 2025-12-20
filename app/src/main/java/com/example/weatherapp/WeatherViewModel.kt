@@ -14,11 +14,27 @@ class WeatherViewModel : ViewModel() {
     private val _weatherData = MutableLiveData<WeatherData?>()
     val weatherData: LiveData<WeatherData?> = _weatherData
 
-    private val _isLoading = MutableLiveData<Boolean>(false) // Задаем начальное значение
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
+
+    // Свойство для выбора шкалы температуры (true = Celsius, false = Fahrenheit)
+    private val _isCelsius = MutableLiveData<Boolean>(true)
+    val isCelsius: LiveData<Boolean> = _isCelsius
+
+    // Свойство для отображения направления ветра
+    private val _showWindDirection = MutableLiveData<Boolean>(true)
+    val showWindDirection: LiveData<Boolean> = _showWindDirection
+
+    fun setTemperatureUnit(celsius: Boolean) {
+        _isCelsius.value = celsius
+    }
+
+    fun setShowWindDirection(show: Boolean) {
+        _showWindDirection.value = show
+    }
 
     fun loadWeather(city: String) {
         if (_isLoading.value == true) return
@@ -41,6 +57,7 @@ class WeatherViewModel : ViewModel() {
                         humidity = response.main.humidity,
                         pressure = response.main.pressure,
                         windSpeed = response.wind.speed,
+                        windDegree = response.wind.deg,
                         icon = response.weather.firstOrNull()?.icon ?: ""
                     )
                 } else {
@@ -57,4 +74,3 @@ class WeatherViewModel : ViewModel() {
         }
     }
 }
-

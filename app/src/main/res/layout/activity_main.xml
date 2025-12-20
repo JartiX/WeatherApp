@@ -10,165 +10,235 @@
         <import type="android.view.View"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        tools:context=".MainActivity">
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Погода в мире"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:padding="16dp"
+            tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/tvSelectCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Выберите город:"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp" />
-
-        <Spinner
-            android:id="@+id/spinnerCity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:minHeight="48dp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardWeather"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/spinnerCity"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp"
-            android:visibility="@{viewModel.weatherData == null ? View.GONE : View.VISIBLE}">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="@string/app_title"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp" />
 
-                <TextView
-                    android:id="@+id/tvCityName"
+            <TextView
+                android:id="@+id/tvSelectCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_city"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="24dp" />
+
+            <Spinner
+                android:id="@+id/spinnerCity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvSelectCity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp" />
+
+            <!-- Настройки отображения -->
+            <TextView
+                android:id="@+id/tvSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/display_settings"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/spinnerCity"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="24dp" />
+
+            <!-- RadioGroup для выбора шкалы температуры -->
+            <RadioGroup
+                android:id="@+id/radioGroupTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvSettings"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="12dp">
+
+                <RadioButton
+                    android:id="@+id/radioCelsius"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.weatherData.city}"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
-                    tools:text="Moscow" />
+                    android:text="@string/celsius"
+                    android:checked="true"
+                    android:minHeight="48dp" />
 
-                <TextView
-                    android:id="@+id/tvDescription"
+                <RadioButton
+                    android:id="@+id/radioFahrenheit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.weatherData.descriptionCapitalized}"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    tools:text="Clear sky" />
+                    android:text="@string/fahrenheit"
+                    android:layout_marginStart="16dp"
+                    android:minHeight="48dp" />
+            </RadioGroup>
 
-                <TextView
-                    android:id="@+id/tvTemperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.format(@string/temperature_format, viewModel.weatherData.temperatureCelsius)}"
-                    android:textSize="48sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    tools:text="15°C" />
+            <!-- CheckBox для направления ветра -->
+            <CheckBox
+                android:id="@+id/checkboxWindDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_wind_direction"
+                android:checked="true"
+                app:layout_constraintTop_toBottomOf="@id/radioGroupTemperature"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp" />
 
-                <TextView
-                    android:id="@+id/tvFeelsLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/feels_like_format(viewModel.weatherData.feelsLikeCelsius)}"
-                    android:textSize="14sp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    tools:text="Ощущается как 13°C" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp" />
+            <!-- Карточка с погодой -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardWeather"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/checkboxWindDirection"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:visibility="@{viewModel.weatherData == null ? View.GONE : View.VISIBLE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
+                        android:id="@+id/tvCityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/humidity_format(viewModel.weatherData.humidityPercent)}"
-                        android:textSize="14sp"
-                        tools:text="Влажность: 65%" />
+                        android:text="@{viewModel.weatherData.city}"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        tools:text="Moscow" />
 
                     <TextView
+                        android:id="@+id/tvDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/pressure_format(viewModel.weatherData.pressureHpa)}"
-                        android:textSize="14sp"
-                        android:layout_marginTop="8dp"
-                        tools:text="Давление: 1013 hPa" />
+                        android:text="@{viewModel.weatherData.descriptionCapitalized}"
+                        android:textSize="16sp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="4dp"
+                        tools:text="Clear sky" />
 
                     <TextView
+                        android:id="@+id/tvTemperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/wind_format(viewModel.weatherData.windSpeedMs)}"
+                        android:text="@{viewModel.isCelsius ? viewModel.weatherData.temperatureCelsius : viewModel.weatherData.temperatureFahrenheit}"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        tools:text="15°C" />
+
+                    <TextView
+                        android:id="@+id/tvFeelsLike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.isCelsius ? @string/feels_like_format(viewModel.weatherData.feelsLikeCelsius) : @string/feels_like_format(viewModel.weatherData.feelsLikeFahrenheit)}"
                         android:textSize="14sp"
-                        android:layout_marginTop="8dp"
-                        tools:text="Ветер: 3.5 м/с" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="4dp"
+                        tools:text="Ощущается как 13°C" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E0E0"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/humidity_format(viewModel.weatherData.humidityPercent)}"
+                            android:textSize="14sp"
+                            tools:text="Влажность: 65%" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/pressure_format(viewModel.weatherData.pressureHpa)}"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp"
+                            tools:text="Давление: 1013 hPa" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/wind_format(viewModel.weatherData.windSpeedMs)}"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp"
+                            tools:text="Ветер: 3.5 м/с" />
+
+                        <TextView
+                            android:id="@+id/tvWindDirection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/wind_direction_format(viewModel.weatherData.windDirection)}"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp"
+                            android:visibility="@{viewModel.showWindDirection ? View.VISIBLE : View.GONE}"
+                            tools:text="Направление: СВ" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/refresh_data"
+                app:layout_constraintTop_toBottomOf="@id/cardWeather"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"
+                android:enabled="@{!viewModel.isLoading}" />
 
-        <Button
-            android:id="@+id/btnRefresh"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Обновить данные"
-            app:layout_constraintTop_toBottomOf="@id/cardWeather"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
-            android:enabled="@{!viewModel.isLoading}" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btnRefresh"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/btnRefresh"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>
