@@ -12,7 +12,7 @@ class WeatherRepository {
 
     suspend fun getWeather(city: String): WeatherResponse? = withContext(Dispatchers.IO) {
         try {
-            val url = "$baseUrl?q=$city&appid=$apiKey"
+            val url = "$baseUrl?q=$city&appid=$apiKey&lang=ru"
             val response = URL(url).readText()
             parseWeatherResponse(response)
         } catch (e: Exception) {
@@ -52,11 +52,17 @@ class WeatherRepository {
             deg = windObject.optInt("deg", 0)
         )
 
+        val cloudsObject = jsonObject.getJSONObject("clouds")
+        val clouds = Clouds(
+            all = cloudsObject.getInt("all")
+        )
+
         return WeatherResponse(
             name = name,
             main = main,
             weather = weather,
-            wind = wind
+            wind = wind,
+            clouds = clouds
         )
     }
 }

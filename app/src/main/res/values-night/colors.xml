@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#1A1A2E</color>
+    <color name="card_background">#16213E</color>
+    <color name="text_primary">#ECEFF1</color>
+    <color name="text_secondary">#90A4AE</color>
+    <color name="divider">#37474F</color>
+
+    <color name="gradient_start">#2C3E50</color>
+    <color name="gradient_end">#4A148C</color>
+
+    <color name="delete_icon">#78909C</color>
+</resources>

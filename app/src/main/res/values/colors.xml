@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#4A90D9</color>
+    <color name="primary_dark">#3A7BC8</color>
+    <color name="accent">#FF6B6B</color>
+
+    <color name="background">#F5F7FA</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="text_primary">#2C3E50</color>
+    <color name="text_secondary">#7F8C8D</color>
+    <color name="divider">#E0E0E0</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="gradient_start">#667eea</color>
+    <color name="gradient_end">#764ba2</color>
+
+    <color name="humidity_icon">#3498DB</color>
+    <color name="wind_icon">#27AE60</color>
+    <color name="pressure_icon">#E67E22</color>
+    <color name="cloud_icon">#95A5A6</color>
+    <color name="delete_icon">#BDC3C7</color>
 </resources>

@@ -37,6 +37,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -53,6 +54,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.cardview)
+    implementation(libs.androidx.recyclerview)
+
+    implementation(libs.material.v1110)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
