@@ -12,17 +12,18 @@ data class WeatherData(
     val icon: String,
     val clouds: Int = 0
 ) {
+    // API возвращает °C (units=metric), не Kelvin
     val temperatureCelsius: String
-        get() = "${(temperature - 273.15).toInt()}°C"
+        get() = "${temperature.toInt()}°C"
 
     val temperatureFahrenheit: String
-        get() = "${((temperature - 273.15) * 9 / 5 + 32).toInt()}°F"
+        get() = "${(temperature * 9 / 5 + 32).toInt()}°F"
 
     val feelsLikeCelsius: String
-        get() = "${(feelsLike - 273.15).toInt()}°C"
+        get() = "${feelsLike.toInt()}°C"
 
     val feelsLikeFahrenheit: String
-        get() = "${((feelsLike - 273.15) * 9 / 5 + 32).toInt()}°F"
+        get() = "${(feelsLike * 9 / 5 + 32).toInt()}°F"
 
     val descriptionCapitalized: String
         get() = description.replaceFirstChar { it.uppercase() }

@@ -16,15 +16,15 @@ class AddCityDialog(
         val editText = dialogView.findViewById<EditText>(R.id.etCityName)
 
         MaterialAlertDialogBuilder(context)
-            .setTitle("Добавить город")
+            .setTitle(context.getString(R.string.dialog_add_city_title))
             .setView(dialogView)
-            .setPositiveButton("Добавить") { _, _ ->
+            .setPositiveButton(context.getString(R.string.dialog_add)) { _, _ ->
                 val cityName = editText.text.toString()
                 if (cityName.isNotBlank()) {
                     onCityAdded(cityName.trim())
                 }
             }
-            .setNegativeButton("Отмена", null)
+            .setNegativeButton(context.getString(R.string.dialog_cancel), null)
             .show()
     }
 }

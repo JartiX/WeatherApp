@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Погодное приложение</string>
+    <string name="app_title">Погода</string>
+    <string name="your_cities">Ваши города</string>
+    <string name="select_city">Выберите город:</string>
+    <string name="display_settings">Настройки отображения</string>
+    <string name="celsius">Цельсий (°C)</string>
+    <string name="fahrenheit">Фаренгейт (°F)</string>
+    <string name="show_wind_direction">Показывать направление ветра</string>
+    <string name="refresh_data">Обновить данные</string>
+    <string name="add_city">Добавить город</string>
+    <string name="refresh">Обновить</string>
+    <string name="delete">Удалить</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление</string>
+    <string name="wind">Ветер</string>
+    <string name="cloudiness">Облачность</string>
+    <string name="city_name_hint">Название города</string>
+    <string name="dialog_add_city_title">Добавить город</string>
+    <string name="dialog_add">Добавить</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="loading">Загрузка…</string>
+    <string name="loading_pressure">-- hPa</string>
+    <string name="loading_wind_speed">-- м/с</string>
+    <string name="wind_speed_format">%1$.1f м/с</string>
+    <string name="pressure_format_hpa">%d hPa</string>
+
+    <string name="temperature_format">%s</string>
+    <string name="feels_like_format">Ощущается как %s</string>
+    <string name="humidity_format">Влажность: %s</string>
+    <string name="pressure_format">Давление: %s</string>
+    <string name="wind_format">Ветер: %s</string>
+    <string name="wind_direction_format">Направление: %s</string>
+
+    <string name="error_no_internet">Нет подключения к интернету. Проверьте сеть.</string>
+    <string name="error_generic">Ошибка: %1$s</string>
+    <string name="error_load_failed">Не удалось загрузить данные для \"%1$s\"</string>
+    <string name="error_city_exists">Город уже в списке</string>
+    <string name="error_cannot_remove_last">Нельзя удалить последний город</string>
+
+    <string name="menu_language">Язык</string>
+    <string name="menu_language_english">English</string>
+    <string name="menu_language_russian">Русский</string>
+    <string name="menu_language_chinese">中文</string>
+    <string name="menu_language_japanese">日本語</string>
+</resources>

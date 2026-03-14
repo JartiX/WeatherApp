@@ -1,15 +1,17 @@
 package com.example.weatherapp
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class WeatherViewModel : ViewModel() {
+class WeatherViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = WeatherRepository()
+    private val app = application
 
     private val _cities = MutableLiveData<MutableList<String>>(
         mutableListOf("Moscow", "London", "Paris", "New York", "Tokyo")
@@ -73,7 +75,7 @@ class WeatherViewModel : ViewModel() {
 
         val currentList = _cities.value ?: mutableListOf()
         if (currentList.any { it.equals(trimmed, ignoreCase = true) }) {
-            _errorMessage.value = "Город уже в списке"
+            _errorMessage.value = app.getString(R.string.error_city_exists)
             return
         }
 
@@ -87,7 +89,7 @@ class WeatherViewModel : ViewModel() {
     fun removeCity(position: Int) {
         val currentList = _cities.value ?: return
         if (currentList.size <= 1) {
-            _errorMessage.value = "Нельзя удалить последний город"
+            _errorMessage.value = app.getString(R.string.error_cannot_remove_last)
             return
         }
         if (position < 0 || position >= currentList.size) return
@@ -117,7 +119,13 @@ class WeatherViewModel : ViewModel() {
                 _isLoading.value = true
                 _errorMessage.value = null
 
-                val response = repository.getWeather(city)
+                val lang = when {
+                    Locale.getDefault().language == "ru" -> "ru"
+                    Locale.getDefault().language == "zh" -> "zh_cn"
+                    Locale.getDefault().language == "ja" -> "ja"
+                    else -> "en"
+                }
+                val response = repository.getWeather(city, lang)
 
                 if (response != null) {
                     val weatherData = WeatherData(
@@ -153,10 +161,16 @@ class WeatherViewModel : ViewModel() {
                     }
 
                 } else {
-                    _errorMessage.value = "Не удалось загрузить данные для \"$city\""
+                    _errorMessage.value = app.getString(R.string.error_load_failed, city)
                 }
             } catch (e: Exception) {
-                _errorMessage.value = "Ошибка: ${e.message}"
+                val msg = e.message ?: ""
+                _errorMessage.value = when {
+                    msg.contains("Unable to resolve host", ignoreCase = true) ||
+                    msg.contains("No address associated with hostname", ignoreCase = true) ->
+                        app.getString(R.string.error_no_internet)
+                    else -> app.getString(R.string.error_generic, msg)
+                }
             } finally {
                 _isLoading.value = false
             }

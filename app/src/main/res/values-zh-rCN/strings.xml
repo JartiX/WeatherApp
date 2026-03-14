@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">天气应用</string>
+    <string name="app_title">天气</string>
+    <string name="your_cities">您的城市</string>
+    <string name="select_city">选择城市：</string>
+    <string name="display_settings">显示设置</string>
+    <string name="celsius">摄氏度 (°C)</string>
+    <string name="fahrenheit">华氏度 (°F)</string>
+    <string name="show_wind_direction">显示风向</string>
+    <string name="refresh_data">刷新数据</string>
+    <string name="add_city">添加城市</string>
+    <string name="refresh">刷新</string>
+    <string name="delete">删除</string>
+    <string name="humidity">湿度</string>
+    <string name="pressure">气压</string>
+    <string name="wind">风速</string>
+    <string name="cloudiness">云量</string>
+    <string name="city_name_hint">城市名称</string>
+    <string name="dialog_add_city_title">添加城市</string>
+    <string name="dialog_add">添加</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="loading">加载中…</string>
+    <string name="loading_pressure">-- hPa</string>
+    <string name="loading_wind_speed">-- 米/秒</string>
+    <string name="wind_speed_format">%1$.1f 米/秒</string>
+    <string name="pressure_format_hpa">%d hPa</string>
+
+    <string name="temperature_format">%s</string>
+    <string name="feels_like_format">体感 %s</string>
+    <string name="humidity_format">湿度：%s</string>
+    <string name="pressure_format">气压：%s</string>
+    <string name="wind_format">风速：%s</string>
+    <string name="wind_direction_format">方向：%s</string>
+
+    <string name="error_no_internet">无网络连接。请检查网络。</string>
+    <string name="error_generic">错误：%1$s</string>
+    <string name="error_load_failed">无法加载「%1$s」的数据</string>
+    <string name="error_city_exists">城市已在列表中</string>
+    <string name="error_cannot_remove_last">无法删除最后一个城市</string>
+
+    <string name="menu_language">语言</string>
+    <string name="menu_language_english">English</string>
+    <string name="menu_language_russian">Русский</string>
+    <string name="menu_language_chinese">中文</string>
+    <string name="menu_language_japanese">日本語</string>
+</resources>
