@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.recyclerview)

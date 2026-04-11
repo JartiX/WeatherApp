@@ -10,7 +10,7 @@ import java.net.URL
 class WeatherRepository {
 
     private val apiKey = "7d56f638dbd0babfd3ad3407397edcf9"
-    private val baseUrl = "https://api.openweathermap.org/data/2.5/weather"
+    private val forecastUrl = "https://api.openweathermap.org/data/2.5/forecast"
     private val geoUrl = "https://api.openweathermap.org/geo/1.0/direct"
 
     data class GeoResult(val lat: Double, val lon: Double, val displayName: String)
@@ -20,13 +20,13 @@ class WeatherRepository {
             val needsLocalizedName = lang in listOf("zh_cn", "ja", "ru")
             if (needsLocalizedName) {
                 val geo = fetchCoordinates(city, lang) ?: return@withContext null
-                val response = fetchWeatherByCoords(geo.lat, geo.lon, lang)
+                val response = fetchForecastByCoords(geo.lat, geo.lon, lang)
                 response?.copy(name = geo.displayName)
             } else {
-                var response = fetchWeatherByCity(city, lang)
+                var response = fetchForecastByCity(city, lang)
                 if (response == null) {
                     val geo = fetchCoordinates(city, lang) ?: return@withContext null
-                    response = fetchWeatherByCoords(geo.lat, geo.lon, lang)
+                    response = fetchForecastByCoords(geo.lat, geo.lon, lang)
                 }
                 response
             }
@@ -36,9 +36,9 @@ class WeatherRepository {
         }
     }
 
-    private fun fetchWeatherByCity(city: String, lang: String): WeatherResponse? {
+    private fun fetchForecastByCity(city: String, lang: String): WeatherResponse? {
         return try {
-            val urlString = Uri.parse(baseUrl).buildUpon()
+            val urlString = Uri.parse(forecastUrl).buildUpon()
                 .appendQueryParameter("q", city)
                 .appendQueryParameter("appid", apiKey)
                 .appendQueryParameter("lang", lang)
@@ -89,8 +89,8 @@ class WeatherRepository {
         return null
     }
 
-    private fun fetchWeatherByCoords(lat: Double, lon: Double, lang: String): WeatherResponse? {
-        val urlString = Uri.parse(baseUrl).buildUpon()
+    private fun fetchForecastByCoords(lat: Double, lon: Double, lang: String): WeatherResponse? {
+        val urlString = Uri.parse(forecastUrl).buildUpon()
             .appendQueryParameter("lat", lat.toString())
             .appendQueryParameter("lon", lon.toString())
             .appendQueryParameter("appid", apiKey)
@@ -125,38 +125,41 @@ class WeatherRepository {
 
     private fun parseWeatherResponse(json: String): WeatherResponse {
         val jsonObject = JSONObject(json)
-
-        val name = jsonObject.getString("name")
-
-        val mainObject = jsonObject.getJSONObject("main")
+        val forecastList = jsonObject.optJSONArray("list")
+        val sourceObject = if (forecastList != null && forecastList.length() > 0) {
+            forecastList.getJSONObject(0)
+        } else {
+            jsonObject
+        }
+        val name = jsonObject.optJSONObject("city")?.optString("name")
+            ?.takeIf { it.isNotBlank() }
+            ?: jsonObject.optString("name")
+        val mainObject = sourceObject.optJSONObject("main") ?: JSONObject()
         val main = Main(
-            temp = mainObject.getDouble("temp"),
-            feels_like = mainObject.getDouble("feels_like"),
-            humidity = mainObject.getInt("humidity"),
-            pressure = mainObject.getInt("pressure")
+            temp = mainObject.optDouble("temp", 0.0),
+            feels_like = mainObject.optDouble("feels_like", 0.0),
+            humidity = mainObject.optInt("humidity", 0),
+            pressure = mainObject.optInt("pressure", 0)
         )
-
-        val weatherArray = jsonObject.getJSONArray("weather")
+        val weatherArray = sourceObject.optJSONArray("weather") ?: org.json.JSONArray()
         val weather = mutableListOf<Weather>()
         for (i in 0 until weatherArray.length()) {
             val weatherObj = weatherArray.getJSONObject(i)
             weather.add(
                 Weather(
-                    description = weatherObj.getString("description"),
-                    icon = weatherObj.getString("icon")
+                    description = weatherObj.optString("description", "N/A"),
+                    icon = weatherObj.optString("icon", "")
                 )
             )
         }
-
-        val windObject = jsonObject.getJSONObject("wind")
+        val windObject = sourceObject.optJSONObject("wind") ?: JSONObject()
         val wind = Wind(
-            speed = windObject.getDouble("speed"),
+            speed = windObject.optDouble("speed", 0.0),
             deg = windObject.optInt("deg", 0)
         )
-
-        val cloudsObject = jsonObject.getJSONObject("clouds")
+        val cloudsObject = sourceObject.optJSONObject("clouds") ?: JSONObject()
         val clouds = Clouds(
-            all = cloudsObject.getInt("all")
+            all = cloudsObject.optInt("all", 0)
         )
 
         return WeatherResponse(
